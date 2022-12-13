@@ -104,21 +104,21 @@ class ApigatewayStack(Stack):
             resources=['*'],
             actions=['lambda:InvokeFunction']))
 
-        ### Create ApiGateway Integration Need to work on naming here once it works ###
-        http_api_cfn_integration_read_player = apigatewayv2.CfnIntegration(self,
-                                                                           "ReadPlayerLambdaHttpApiIntegrationPlayer",
-                                                                           api_id=http_api.api_id,
-                                                                           integration_type="AWS_PROXY",
-                                                                           integration_uri="https://cingfcrkcinp23w2cosldl4mmq0qekdt.lambda-url.us-east-1.on.aws/",
-                                                                           credentials_arn=api_role.role_arn,
-                                                                           payload_format_version="1.0",
-                                                                           timeout_in_millis=10000
-                                                                           )
+        # ### Create ApiGateway Integration Need to work on naming here once it works ###
+        # http_api_cfn_integration_read_player = apigatewayv2.CfnIntegration(self,
+        #                                                                   "ReadPlayerLambdaHttpApiIntegrationPlayer",
+        #                                                                   api_id=http_api.api_id,
+        #                                                                   integration_type="AWS_PROXY",
+        #                                                                   integration_uri="https://cingfcrkcinp23w2cosldl4mmq0qekdt.lambda-url.us-east-1.on.aws/",
+        #                                                                   credentials_arn=api_role.role_arn,
+        #                                                                   payload_format_version="1.0",
+        #                                                                   timeout_in_millis=10000
+        #                                                                   )
 
-        http_api_cfn_route_read_player = apigatewayv2.CfnRoute(self,
-                                                               "ReadPlayerLambdaHttpApiRoutePlayer",
-                                                               api_id=http_api.api_id,
-                                                               route_key="GET /api/player",
-                                                               target="integrations/{}".format(
-                                                                   http_api_cfn_integration_read_player.ref)
-                                                               )
+        # http_api_cfn_route_read_player = apigatewayv2.CfnRoute(self,
+        #                                                       "ReadPlayerLambdaHttpApiRoutePlayer",
+        #                                                       api_id=http_api.api_id,
+        #                                                       route_key="GET /api/player",
+        #                                                       target="integrations/{}".format(
+        #                                                           http_api_cfn_integration_read_player.ref)
+        #                                                       )
