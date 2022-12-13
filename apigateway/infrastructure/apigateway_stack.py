@@ -39,14 +39,6 @@ class ApigatewayStack(Stack):
             resources=[core_event_bus.event_bus_arn],
             actions=['events:PutEvents']))
 
-        read_player_lambda = python.PythonFunction.from_function_name(
-            self, "ReadPlayer", "ReadPlayer")
-
-        api_role.add_to_policy(iam.PolicyStatement(
-            effect=iam.Effect.ALLOW,
-            resources=[read_player_lambda.function_arn],
-            actions=['lambda:InvokeFunction']))
-
         ### Create HttpApi ###
         http_api = apigatewayv2_alpha.HttpApi(self,
                                               'CoreEventBustIngestHttpApi')
@@ -103,6 +95,14 @@ class ApigatewayStack(Stack):
                                                           target="integrations/{}".format(
                                                               http_api_cfn_integration_player.ref)
                                                           )
+
+        read_player_lambda = python.PythonFunction.from_function_name(
+            self, "ReadPlayer", "ReadPlayer")
+
+        api_role.add_to_policy(iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            resources=['*'],
+            actions=['lambda:InvokeFunction']))
 
         ### Create ApiGateway Integration Need to work on naming here once it works ###
         http_api_cfn_integration_read_player = apigatewayv2.CfnIntegration(self,
