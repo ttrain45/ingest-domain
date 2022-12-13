@@ -84,7 +84,6 @@ class ApigatewayStack(Stack):
                                                                           "Source": "ingest-api",
                                                                           "DetailType": "player",
                                                                           "Detail": "$request.body",
-                                                                          "Time": "$context.requestTimeEpoch",
                                                                           # Plan to add timestamp as key / value pair passed in
                                                                           "EventBusName": core_event_bus.event_bus_arn
                                                                       },
