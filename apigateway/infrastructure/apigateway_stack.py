@@ -11,6 +11,7 @@ from aws_cdk import (
     aws_apigatewayv2_integrations_alpha as http_lambda_integration,
     CfnOutput,
     aws_events as events,
+    aws_lambda_python_alpha as python
 )
 import os
 
