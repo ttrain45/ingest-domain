@@ -99,14 +99,14 @@ class ApigatewayStack(Stack):
                                                               http_api_cfn_integration_player.ref)
                                                           )
 
-        # read_player_lambda = python.PythonFunction.from_function_name(
-        #     self, "ReadPlayer", "ReadPlayer")
+        read_player_lambda = python.PythonFunction.from_function_name(
+            self, "ReadPlayer", "ReadPlayer")
 
         ### Create ApiGateway Integration Need to work on naming here once it works ###
         http_api_cfn_integration_read_player = apigatewayv2.CfnIntegration(self,
                                                                            "ReadPlayerLambdaHttpApiIntegrationPlayer",
                                                                            api_id=http_api.api_id,
-                                                                           integration_type="AWS",
+                                                                           integration_type="AWS_PROXY",
                                                                            integration_uri="https://cingfcrkcinp23w2cosldl4mmq0qekdt.lambda-url.us-east-1.on.aws/",
                                                                            credentials_arn=api_role.role_arn,
                                                                            payload_format_version="1.0",
