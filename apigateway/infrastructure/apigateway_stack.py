@@ -111,7 +111,7 @@ class ApigatewayStack(Stack):
                                                                            integration_uri="arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:499104388492:function:ReadPlayer/invocations",
                                                                            # arn:aws:lambda:us-east-1:123456789012:function:HelloWorld/invocations"https://cingfcrkcinp23w2cosldl4mmq0qekdt.lambda-url.us-east-1.on.aws",
                                                                            credentials_arn=api_role.role_arn,
-                                                                           payload_format_version="1.0",
+                                                                           payload_format_version="2.0",
                                                                            timeout_in_millis=10000
                                                                            )
 
