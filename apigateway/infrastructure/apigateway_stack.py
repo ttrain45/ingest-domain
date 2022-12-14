@@ -106,8 +106,10 @@ class ApigatewayStack(Stack):
         http_api_cfn_integration_read_player = apigatewayv2.CfnIntegration(self,
                                                                            "ReadPlayerLambdaHttpApiIntegrationPlayer",
                                                                            api_id=http_api.api_id,
+                                                                           http_method="POST"
                                                                            integration_type="AWS_PROXY",
-                                                                           # integration_uri="https://cingfcrkcinp23w2cosldl4mmq0qekdt.lambda-url.us-east-1.on.aws/",
+                                                                           integration_uri="arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:499104388492:function:ReadPlayer/invocations"
+                                                                           # arn:aws:lambda:us-east-1:123456789012:function:HelloWorld/invocations"https://cingfcrkcinp23w2cosldl4mmq0qekdt.lambda-url.us-east-1.on.aws",
                                                                            credentials_arn=api_role.role_arn,
                                                                            payload_format_version="1.0",
                                                                            timeout_in_millis=10000
@@ -116,7 +118,7 @@ class ApigatewayStack(Stack):
         http_api_cfn_route_read_player = apigatewayv2.CfnRoute(self,
                                                                "ReadPlayerLambdaHttpApiRoutePlayer",
                                                                api_id=http_api.api_id,
-                                                               route_key="GET /api/player",
+                                                               route_key="GET /api/read_player",
                                                                target="integrations/{}".format(
                                                                    http_api_cfn_integration_read_player.ref)
                                                                )
