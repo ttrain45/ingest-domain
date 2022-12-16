@@ -92,7 +92,7 @@ class ApigatewayStack(Stack):
                                                                       )
 
         http_api_cfn_route_player = apigatewayv2.CfnRoute(self,
-                                                          "CoreEventBusHttpApiRoutePlayer",
+                                                          "CoreEventBusHttpApiPutRoutePlayer",
                                                           api_id=http_api.api_id,
                                                           route_key="POST /api/player",
                                                           target="integrations/{}".format(
@@ -100,7 +100,7 @@ class ApigatewayStack(Stack):
                                                           )
 
         http_api_cfn_route_player = apigatewayv2.CfnRoute(self,
-                                                          "CoreEventBusHttpApiRoutePlayer",
+                                                          "CoreEventBusHttpApiPatchRoutePlayer",
                                                           api_id=http_api.api_id,
                                                           route_key="PATCH /api/player",
                                                           target="integrations/{}".format(
