@@ -84,6 +84,7 @@ class ApigatewayStack(Stack):
                                                                           "Source": "ingest-api",
                                                                           "DetailType": "player",
                                                                           "Detail": "$request.body",
+                                                                          "Method": "$request.method",
                                                                           # Plan to add timestamp as key / value pair passed in
                                                                           "EventBusName": core_event_bus.event_bus_arn
                                                                       },
@@ -95,6 +96,14 @@ class ApigatewayStack(Stack):
                                                           "CoreEventBusHttpApiRoutePlayer",
                                                           api_id=http_api.api_id,
                                                           route_key="POST /api/player",
+                                                          target="integrations/{}".format(
+                                                              http_api_cfn_integration_player.ref)
+                                                          )
+
+        http_api_cfn_route_player = apigatewayv2.CfnRoute(self,
+                                                          "CoreEventBusHttpApiRoutePlayer",
+                                                          api_id=http_api.api_id,
+                                                          route_key="PATCH /api/player",
                                                           target="integrations/{}".format(
                                                               http_api_cfn_integration_player.ref)
                                                           )
