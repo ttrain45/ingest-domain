@@ -117,10 +117,7 @@ class ApigatewayStack(Stack):
                                                                       request_parameters={
                                                                           "Source": "ingest-api",
                                                                           "DetailType": "player",
-                                                                          "Detail": json.dumps({
-                                                                            "method": "$request.method",
-                                                                            "id": "$request.querystring.id"
-                                                                          }),
+                                                                          "Detail": "$request.body",
                                                                           # Plan to add timestamp as key / value pair passed in
                                                                           "EventBusName": core_event_bus.event_bus_arn
                                                                       },
