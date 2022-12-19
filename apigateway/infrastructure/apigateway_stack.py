@@ -108,7 +108,7 @@ class ApigatewayStack(Stack):
                                                           )
 
         http_api_cfn_integration_player_delete = apigatewayv2.CfnIntegration(self,
-                                                                      "CoreEventBusHttpApiIntegrationPlayer",
+                                                                      "CoreEventBusHttpApiIntegrationDeletePlayer",
                                                                       api_id=http_api.api_id,
                                                                       integration_type="AWS_PROXY",
                                                                       integration_subtype="EventBridge-PutEvents",
