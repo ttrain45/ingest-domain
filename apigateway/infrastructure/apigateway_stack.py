@@ -82,7 +82,7 @@ class ApigatewayStack(Stack):
                                                                       credentials_arn=api_role.role_arn,
                                                                       request_parameters={
                                                                           "Source": "ingest-api",
-                                                                          "DetailType": ["player", "$request.method"],
+                                                                          "DetailType": "player",
                                                                           "Detail": "$request.body",
                                                                           # Plan to add timestamp as key / value pair passed in
                                                                           "EventBusName": core_event_bus.event_bus_arn
