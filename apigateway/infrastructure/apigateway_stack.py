@@ -106,13 +106,30 @@ class ApigatewayStack(Stack):
                                                           target="integrations/{}".format(
                                                               http_api_cfn_integration_player.ref)
                                                           )
+
+        http_api_cfn_integration_player_delete = apigatewayv2.CfnIntegration(self,
+                                                                      "CoreEventBusHttpApiIntegrationPlayer",
+                                                                      api_id=http_api.api_id,
+                                                                      integration_type="AWS_PROXY",
+                                                                      integration_subtype="EventBridge-PutEvents",
+                                                                      credentials_arn=api_role.role_arn,
+                                                                      request_parameters={
+                                                                          "Source": "ingest-api",
+                                                                          "DetailType": "player",
+                                                                          "Detail": "DELETE",
+                                                                          # Plan to add timestamp as key / value pair passed in
+                                                                          "EventBusName": core_event_bus.event_bus_arn
+                                                                      },
+                                                                      payload_format_version="1.0",
+                                                                      timeout_in_millis=10000
+                                                                      )
         
         http_api_cfn_route_player = apigatewayv2.CfnRoute(self,
                                                           "CoreEventBusHttpApiDeleteRoutePlayer",
                                                           api_id=http_api.api_id,
                                                           route_key="DELETE /api/player",
                                                           target="integrations/{}".format(
-                                                              http_api_cfn_integration_player.ref)
+                                                              http_api_cfn_integration_player_delete.ref)
                                                           )
 
         read_player_lambda = python.PythonFunction.from_function_name(
