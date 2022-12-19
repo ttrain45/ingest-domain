@@ -108,7 +108,7 @@ class ApigatewayStack(Stack):
                                                           )
         
         http_api_cfn_route_player = apigatewayv2.CfnRoute(self,
-                                                          "CoreEventBusHttpApiPatchRoutePlayer",
+                                                          "CoreEventBusHttpApiDeleteRoutePlayer",
                                                           api_id=http_api.api_id,
                                                           route_key="DELETE /api/player",
                                                           target="integrations/{}".format(
