@@ -82,7 +82,7 @@ class ApigatewayStack(Stack):
                                                                       credentials_arn=api_role.role_arn,
                                                                       request_parameters={
                                                                           "Source": "ingest-api",
-                                                                          "DetailType": "player",
+                                                                          "DetailType": ["player", "$request.method"],
                                                                           "Detail": "$request.body",
                                                                           # Plan to add timestamp as key / value pair passed in
                                                                           "EventBusName": core_event_bus.event_bus_arn
@@ -110,7 +110,7 @@ class ApigatewayStack(Stack):
         http_api_cfn_route_player = apigatewayv2.CfnRoute(self,
                                                           "CoreEventBusHttpApiPatchRoutePlayer",
                                                           api_id=http_api.api_id,
-                                                          route_key="PATCH /api/player",
+                                                          route_key="DELETE /api/player",
                                                           target="integrations/{}".format(
                                                               http_api_cfn_integration_player.ref)
                                                           )
