@@ -106,6 +106,14 @@ class ApigatewayStack(Stack):
                                                           target="integrations/{}".format(
                                                               http_api_cfn_integration_player.ref)
                                                           )
+        
+        http_api_cfn_route_player = apigatewayv2.CfnRoute(self,
+                                                          "CoreEventBusHttpApiPatchRoutePlayer",
+                                                          api_id=http_api.api_id,
+                                                          route_key="PATCH /api/player",
+                                                          target="integrations/{}".format(
+                                                              http_api_cfn_integration_player.ref)
+                                                          )
 
         read_player_lambda = python.PythonFunction.from_function_name(
             self, "ReadPlayer", "ReadPlayer")
