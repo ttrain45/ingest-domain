@@ -117,7 +117,7 @@ class ApigatewayStack(Stack):
                                                                       request_parameters={
                                                                           "Source": "ingest-api",
                                                                           "DetailType": "player",
-                                                                          "Detail": "$request.body",
+                                                                          "Detail": '{"method": "$\{context.httpMethod\}", "id": "$\{request.querystring\}"}',
                                                                           # Plan to add timestamp as key / value pair passed in
                                                                           "EventBusName": core_event_bus.event_bus_arn
                                                                       },
@@ -142,7 +142,7 @@ class ApigatewayStack(Stack):
                                                                            api_id=http_api.api_id,
                                                                            integration_method="POST",
                                                                            integration_type="AWS_PROXY",
-                                                                           integration_uri="arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:499104388492:function:ReadPlayer/invocations",
+                                                                           integration_uri="arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:284369237500:function:ReadPlayer/invocations",
                                                                            # arn:aws:lambda:us-east-1:123456789012:function:HelloWorld/invocations"https://cingfcrkcinp23w2cosldl4mmq0qekdt.lambda-url.us-east-1.on.aws",
                                                                            credentials_arn=api_role.role_arn,
                                                                            payload_format_version="2.0",
