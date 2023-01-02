@@ -26,7 +26,7 @@ class ApigatewayStack(Stack):
         rest_api = apigateway.RestApi(
             self,
             "IngestGateway",
-            cloudWatchRole=True,
+            cloud_watch_role=True,
             deploy_options=apigateway.StageOptions(
                 access_log_destination=apigateway.LogGroupLogDestination(rest_api_log_group),
                 access_log_format=apigateway.AccessLogFormat.clf()
