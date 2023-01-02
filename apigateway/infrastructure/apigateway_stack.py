@@ -13,15 +13,30 @@ from aws_cdk import (
 )
 import json
 import os
+from apigateway.infrastructure.player_domain_gateway_stack import PlayerDomainGatewayStack
+from lambda_function.infratructure.player_ingest_stack import PlayerIngestStack
 
 
 class ApigatewayStack(Stack):
 
-    def __init__(self, scope, *, handler_arn) -> None:
+    def __init__(self, scope, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        api = apigateway.RestApi(self, "myapi",
-            proxy=False
+        rest_api = apigateway.RestApi(self, "IngestGateway")
+
+        rest_api.root.add_method("ANY")
+
+        PlayerIngestStack(self, "PlayerIngestStack")
+
+        playerIngestLambdaHandler = python.PythonFunction.from_function_name(
+            self, "PlayerIngestLambdaHandler", "PlayerIngestLambdaHandler")
+
+        player_domain = PlayerDomainGatewayStack(
+            self,
+            "PlayerDomainGatewayStack",
+            rest_api_id=rest_api.rest_api_id,
+            root_resource_id=rest_api.rest_api_root_resource_id,
+            handler_arn=playerIngestLambdaHandler.function_arn
         )
 
 

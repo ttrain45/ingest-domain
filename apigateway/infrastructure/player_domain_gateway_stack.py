@@ -17,17 +17,19 @@ import os
 
 class PlayerDomainGatewayStack(Stack):
 
-    def __init__(self, scope, *, rest_api_id, rootResourceId, handler_arn) -> None:
+    def __init__(self, scope, id: str, rest_api_id, root_resource_id, handler_arn, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        api = RestApi.from_rest_api_attributes(self,
+        api = apigateway.RestApi.from_rest_api_attributes(self,
+            "IngestGateway",
             rest_api_id=rest_api_id,
             root_resource_id=root_resource_id
         )
 
-        lambda_handler = _lambda.from_function_arn(handler_arn)
+        lambda_handler = python.PythonFunction.from_function_name(
+            self, "PlayerIngestLambdaHandler", "PlayerIngestLambdaHandler")
 
-        lambda_integration = apigateway.LambdaIntegration(handler)
+        lambda_integration = apigateway.LambdaIntegration(lambda_handler)
 
         player = api.root.add_resource("player", default_integration=lambda_integration)
         player.add_method("GET") # GET /player

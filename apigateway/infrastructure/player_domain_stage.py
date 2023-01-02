@@ -12,12 +12,8 @@ class PlayerDomainStage(Stage):
         super().__init__(scope, id, **kwargs)
 
         handler = PlayerIngestStack(self)
-
-        rest_api = PlayerDomainGatewayStack(self, 
+        
+        PlayerDomainGatewayStack(self, 
             rest_api_id=rest_api_id, 
             root_resource_id=root_resource_id,
             handler_arn=handler.function_arn)
-
-        rest_api.root.add_method("ANY")
-
-        return rest_api

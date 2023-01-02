@@ -21,11 +21,12 @@ class PlayerIngestStack(Stack):
         )
 
         ### Create Add Player Lambda ###
-        player_ingest_handler = python.PythonFunction(self, "PlayerIngestHandler",
+        player_ingest_handler = python.PythonFunction(self, "PlayerIngestLambdaHandler",
                                                  entry="lambda_function/runtime",  # required
                                                  runtime=_lambda.Runtime.PYTHON_3_8,  # required
                                                  index="player_ingest.py",  # optional, defaults to 'index.py'
                                                  handler="handler",
+                                                 function_name="PlayerIngestLambdaHandler",
                                                  memory_size=256,
                                                  layers=[powertools_layer],
                                                  tracing=_lambda.Tracing.ACTIVE
@@ -34,7 +35,7 @@ class PlayerIngestStack(Stack):
         ### Update and grant invoke Lambda permission to this lambda ###
         ### from event bridge events ###
         principal = iam.ServicePrincipal("events.amazonaws.com")
-        add_player_event.grant_invoke(principal)
+        player_ingest_handler.grant_invoke(principal)
 
         ### Retrieve Player Event Bus from event bus name ###
         player_data_event_bus = events.EventBus.from_event_bus_name(
@@ -42,5 +43,3 @@ class PlayerIngestStack(Stack):
 
         ### Grant Add Player Lambda permissions for Player Data Event Bus put events ###
         player_data_event_bus.grant_put_events_to(player_ingest_handler)
-
-        return player_ingest_handler
