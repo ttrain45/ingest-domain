@@ -14,14 +14,13 @@ tracer = Tracer(service="PlayerInjestLambda")
 @logger.inject_lambda_context
 @tracer.capture_lambda_handler
 def handler(event: dict, context: LambdaContext) -> str:
-    logger.info(event["detail"])
 
-    detail_dict = event.get("detail")
+    logger.info(event)
 
     ingest_event = [
         {
-            'Source': 'PlayerInjestLambda',
-            'DetailType': 'player',
+            'Source': 'InjestLambda',
+            'DetailType': event['path'].split('/')[1].upper(),
             'Detail': json.dumps(detail_dict),
             'EventBusName': 'PlayerDataEventBus'
         },
@@ -33,4 +32,4 @@ def handler(event: dict, context: LambdaContext) -> str:
         Entries=ingest_event
     )
 
-    logger.info('Core Bridge kicked off from Player EventBridge')
+    logger.info('Core Bridge kicked off from Ingest Lambda')

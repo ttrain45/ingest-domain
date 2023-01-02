@@ -39,14 +39,9 @@ class GatewayIngestStack(Stack):
 
         self.__handler_function_arn = player_ingest_handler.function_arn
 
-        ### Update and grant invoke Lambda permission to this lambda ###
-        ### from event bridge events ###
-        principal = iam.ServicePrincipal("events.amazonaws.com")
-        player_ingest_handler.grant_invoke(principal)
-
-        ### Retrieve Player Event Bus from event bus name ###
-        player_data_event_bus = events.EventBus.from_event_bus_name(
+        ### Retrieve Core Event Bus from event bus name ###
+        core_event_bus = events.EventBus.from_event_bus_name(
             self, "CoreEventBus", "CoreEventBus")
 
-        ### Grant Add Player Lambda permissions for Player Data Event Bus put events ###
-        player_data_event_bus.grant_put_events_to(player_ingest_handler)
+        ### Grant Put Events  ###
+        core_event_bus.grant_put_events_to(player_ingest_handler)

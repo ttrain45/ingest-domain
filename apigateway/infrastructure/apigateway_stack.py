@@ -23,6 +23,8 @@ class ApigatewayStack(Stack):
 
         rest_api_log_group = logs.LogGroup(self, "IngestLogs")
 
+        #Must use from function attributes. Returns a different type of object
+        #due to the same_environment flag
         handler = python.PythonFunction.from_function_attributes(
             self,
             "IngestLambdaHandler",
