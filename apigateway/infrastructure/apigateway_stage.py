@@ -3,6 +3,7 @@ from aws_cdk import (
     Stage
 )
 from apigateway.infrastructure.apigateway_stack import ApigatewayStack
+from lambda_function.infratructure.gateway_ingest_stack import GatewayIngestStack
 
 
 class ApigatewayStage(Stage):
@@ -10,4 +11,6 @@ class ApigatewayStage(Stage):
     def __init__(self, scope: Construct, id: str, **kwargs):
         super().__init__(scope, id, **kwargs)
 
-        ApigatewayStack(self, 'Apigateway')
+        gateway_ingest_stack = GatewayIngestStack(self, "GatewayIngestStack")
+
+        ApigatewayStack(self, 'IngestApiGateway', gateway_ingest_stack.function_arn)

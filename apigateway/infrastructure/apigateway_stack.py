@@ -13,30 +13,33 @@ from aws_cdk import (
 )
 import json
 import os
-from apigateway.infrastructure.player_domain_gateway_stack import PlayerDomainGatewayStack
+from apigateway.infrastructure.player_domain_gateway_stack import IngestDomainGatewayStack
 from lambda_function.infratructure.player_ingest_stack import PlayerIngestStack
 
 
 class ApigatewayStack(Stack):
 
-    def __init__(self, scope, id: str, **kwargs) -> None:
+    def __init__(self, scope, id: str, handler_arn, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
         rest_api = apigateway.RestApi(self, "IngestGateway")
 
-        rest_api.root.add_method("ANY")
+        rest_api.root.add_proxy(
+            any_method=True,
+            default_integration=python.PythonFunction.from_function_arn(self, "IngestLambdaHandler", handler_arn)
+        )
 
         PlayerIngestStack(self, "PlayerIngestStack")
 
-        playerIngestLambdaHandler = python.PythonFunction.from_function_name(
-            self, "PlayerIngestLambdaHandler", "PlayerIngestLambdaHandler")
+        IngestLambdaHandler = python.PythonFunction.from_function_name(
+            self, "IngestLambdaHandler", "IngestLambdaHandler")
 
-        player_domain = PlayerDomainGatewayStack(
+        player_domain = IngestDomainGatewayStack(
             self,
-            "PlayerDomainGatewayStack",
+            "IngestDomainGatewayStack",
             rest_api_id=rest_api.rest_api_id,
             root_resource_id=rest_api.rest_api_root_resource_id,
-            handler_arn=playerIngestLambdaHandler.function_arn
+            handler_arn=IngestLambdaHandler.function_arn
         )
 
 

@@ -9,7 +9,9 @@ from aws_cdk import (
 from constructs import Construct
 
 
-class PlayerIngestStack(Stack):
+class GatewayIngestStack(Stack):
+
+    function_arn: str
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
@@ -21,16 +23,18 @@ class PlayerIngestStack(Stack):
         )
 
         ### Create Add Player Lambda ###
-        player_ingest_handler = python.PythonFunction(self, "PlayerIngestLambdaHandler",
+        player_ingest_handler = python.PythonFunction(self, "IngestLambdaHandler",
                                                  entry="lambda_function/runtime",  # required
                                                  runtime=_lambda.Runtime.PYTHON_3_8,  # required
-                                                 index="player_ingest.py",  # optional, defaults to 'index.py'
+                                                 index="gateway_ingest.py",  # optional, defaults to 'index.py'
                                                  handler="handler",
-                                                 function_name="PlayerIngestLambdaHandler",
+                                                 function_name="IngestLambdaHandler",
                                                  memory_size=256,
                                                  layers=[powertools_layer],
                                                  tracing=_lambda.Tracing.ACTIVE
                                                  )
+
+        this.function_arn = player_ingest_handler.function_arn()
 
         ### Update and grant invoke Lambda permission to this lambda ###
         ### from event bridge events ###
