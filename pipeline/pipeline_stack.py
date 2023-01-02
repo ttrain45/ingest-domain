@@ -15,7 +15,7 @@ class PipelineStack(Stack):
 
         code_pipeline = pipelines.CodePipeline(
             self,
-            'IngestDomain-Pipeline',
+            'IngestDomain-Pipeline-REST',
             docker_enabled_for_synth=True,
             synth=pipelines.ShellStep('Synth',
                                       input=pipelines.CodePipelineSource.git_hub(
