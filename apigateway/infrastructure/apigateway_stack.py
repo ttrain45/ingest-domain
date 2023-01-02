@@ -31,6 +31,8 @@ class ApigatewayStack(Stack):
                 access_log_format=apigateway.AccessLogFormat.clf()
             )
         )
+        
+        rest_api_log_group.grant_write(rest_api)
 
         handler = python.PythonFunction.from_function_arn(self, "IngestLambdaHandler", handler_arn)
 
