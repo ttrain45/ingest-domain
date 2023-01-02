@@ -23,7 +23,12 @@ class ApigatewayStack(Stack):
 
         rest_api_log_group = logs.LogGroup(self, "IngestLogs")
 
-        handler = python.PythonFunction.from_function_arn(self, "IngestLambdaHandler", handler_arn)
+        handler = python.PythonFunction.from_function_attributes(
+            self,
+            "IngestLambdaHandler",
+            function_arn=handler_arn, 
+            same_environment=True
+        )
 
         rest_api = apigateway.LambdaRestApi(
             self,
@@ -37,7 +42,7 @@ class ApigatewayStack(Stack):
             )
         )
 
-        handler.grant_invoke(iam.ArnPrincipal(handler_arn))
+        handler.grant_invoke(iam.ArnPrincipal(handler.function_arn))
 
         
                                 
