@@ -6,7 +6,7 @@ from aws_cdk import (
     aws_lambda as _lambda,
     Duration,
     aws_iam as iam,
-    apigateway as apigateway,
+    aws_apigateway as apigateway,
     CfnOutput,
     aws_events as events,
     aws_lambda_python_alpha as python

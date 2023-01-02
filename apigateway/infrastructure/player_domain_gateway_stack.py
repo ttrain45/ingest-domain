@@ -6,7 +6,7 @@ from aws_cdk import (
     aws_lambda as _lambda,
     Duration,
     aws_iam as iam,
-    apigateway as apigateway,
+    aws_apigateway as apigateway,
     CfnOutput,
     aws_events as events,
     aws_lambda_python_alpha as python
@@ -20,7 +20,7 @@ class PlayerDomainGatewayStack(Stack):
     def __init__(self, scope, *, rest_api_id, rootResourceId, handler_arn) -> None:
         super().__init__(scope, id, **kwargs)
 
-        api = RestApi.from_rest_api_attributes(self, "RestApi",
+        api = RestApi.from_rest_api_attributes(self,
             rest_api_id=rest_api_id,
             root_resource_id=root_resource_id
         )
