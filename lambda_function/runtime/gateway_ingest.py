@@ -21,7 +21,7 @@ def handler(event: dict, context: LambdaContext) -> str:
         {
             'Source': 'InjestLambda',
             'DetailType': event['path'].split('/')[1].upper(),
-            'Detail': json.dumps(detail_dict),
+            'Detail': json.dumps(event),
             'EventBusName': 'PlayerDataEventBus'
         },
     ]
