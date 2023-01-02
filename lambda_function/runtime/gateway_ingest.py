@@ -33,3 +33,9 @@ def handler(event: dict, context: LambdaContext) -> str:
     )
 
     logger.info('Core Bridge kicked off from Ingest Lambda')
+    return {
+        "statusCode": 202,
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    }
