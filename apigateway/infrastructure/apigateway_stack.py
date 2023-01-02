@@ -23,21 +23,18 @@ class ApigatewayStack(Stack):
 
         rest_api_log_group = logs.LogGroup(self, "IngestLogs")
 
-        rest_api = apigateway.RestApi(
+        handler = python.PythonFunction.from_function_arn(self, "IngestLambdaHandler", handler_arn)
+
+        rest_api = apigateway.LambdaRestApi(
             self,
             "IngestGateway",
+            handler=handler,
+            proxy=True,
             cloud_watch_role=True,
             deploy_options=apigateway.StageOptions(
                 access_log_destination=apigateway.LogGroupLogDestination(rest_api_log_group),
                 access_log_format=apigateway.AccessLogFormat.clf()
             )
-        )
-
-        handler = python.PythonFunction.from_function_arn(self, "IngestLambdaHandler", handler_arn)
-
-        rest_api.root.add_proxy(
-            any_method=True,
-            default_integration=apigateway.LambdaIntegration(handler)
         )
 
         
