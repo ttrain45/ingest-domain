@@ -13,4 +13,4 @@ class ApigatewayStage(Stage):
 
         gateway_ingest_stack = GatewayIngestStack(self, "GatewayIngestStack")
 
-        ApigatewayStack(self, 'IngestApiGateway', gateway_ingest_stack.function_arn)
+        ApigatewayStack(self, 'IngestApiGateway', gateway_ingest_stack.handler_function_arn)

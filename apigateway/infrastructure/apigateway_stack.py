@@ -13,8 +13,6 @@ from aws_cdk import (
 )
 import json
 import os
-from apigateway.infrastructure.player_domain_gateway_stack import IngestDomainGatewayStack
-from lambda_function.infratructure.player_ingest_stack import PlayerIngestStack
 
 
 class ApigatewayStack(Stack):
@@ -24,13 +22,12 @@ class ApigatewayStack(Stack):
 
         rest_api = apigateway.RestApi(self, "IngestGateway")
 
+        handler = python.PythonFunction.from_function_arn(self, "IngestLambdaHandler", handler_arn)
+
         rest_api.root.add_proxy(
             any_method=True,
-            default_integration=python.PythonFunction.from_function_arn(self, "IngestLambdaHandler", handler_arn)
+            default_integration=apigateway.LambdaIntegration(handler)
         )
-
-
-
 
         
                                 

@@ -11,7 +11,11 @@ from constructs import Construct
 
 class GatewayIngestStack(Stack):
 
-    function_arn: str
+    __handler_function_arn: str
+
+    @property
+    def handler_function_arn(self):
+        return self.__handler_function_arn
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
@@ -34,7 +38,7 @@ class GatewayIngestStack(Stack):
                                                  tracing=_lambda.Tracing.ACTIVE
                                                  )
 
-        this.function_arn = player_ingest_handler.function_arn()
+        self.__handler_function_arn = player_ingest_handler.function_arn
 
         ### Update and grant invoke Lambda permission to this lambda ###
         ### from event bridge events ###
