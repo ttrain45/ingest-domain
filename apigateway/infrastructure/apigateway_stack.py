@@ -42,8 +42,6 @@ class ApigatewayStack(Stack):
             )
         )
 
-        handler.grant_invoke(iam.ArnPrincipal(handler.function_arn))
-
         
                                 
 
