@@ -8,7 +8,6 @@ from aws_cdk import (
 )
 from constructs import Construct
 
-
 class GatewayIngestStack(Stack):
 
     __handler_function_arn: str
