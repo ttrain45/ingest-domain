@@ -29,19 +29,6 @@ class ApigatewayStack(Stack):
             default_integration=python.PythonFunction.from_function_arn(self, "IngestLambdaHandler", handler_arn)
         )
 
-        PlayerIngestStack(self, "PlayerIngestStack")
-
-        IngestLambdaHandler = python.PythonFunction.from_function_name(
-            self, "IngestLambdaHandler", "IngestLambdaHandler")
-
-        player_domain = IngestDomainGatewayStack(
-            self,
-            "IngestDomainGatewayStack",
-            rest_api_id=rest_api.rest_api_id,
-            root_resource_id=rest_api.rest_api_root_resource_id,
-            handler_arn=IngestLambdaHandler.function_arn
-        )
-
 
 
 
