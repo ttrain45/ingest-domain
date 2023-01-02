@@ -10,7 +10,8 @@ from aws_cdk import (
     aws_apigateway as apigateway,
     CfnOutput,
     aws_events as events,
-    aws_lambda_python_alpha as python
+    aws_lambda_python_alpha as python,
+    RemovalPolicy
 )
 import json
 import os
@@ -21,7 +22,12 @@ class ApigatewayStack(Stack):
     def __init__(self, scope, id: str, handler_arn, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        rest_api_log_group = logs.LogGroup(self, "IngestLogs")
+        rest_api_log_group = logs.LogGroup(
+            self,
+            "IngestLogs",
+            removal_policy=RemovalPolicy.DESTROY,
+            retention=logs.RetentionDays.ONE_DAY
+        )
 
         #Must use from function attributes. Returns a different type of object
         #due to the same_environment flag
