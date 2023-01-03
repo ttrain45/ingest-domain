@@ -19,7 +19,7 @@ def handler(event: dict, context: LambdaContext) -> str:
 
     ingest_event = [
         {
-            'Source': 'injest-api',
+            'Source': 'ingest-api',
             'DetailType': event['path'].split('/')[1].upper(),
             'Detail': json.dumps(event),
             'EventBusName': 'CoreEventBus'
